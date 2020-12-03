@@ -1,4 +1,4 @@
-name: Yamdb_final workflow
+name: Yamdb_final
 
 on: [push]
 
@@ -23,7 +23,7 @@ jobs:
       run: flake8 .
 
     - name: Test with pytest
-      run: pytest tests.py 
+      run: pytest
   
   build_and_push_to_docker_hub:
     name: Push Docker image to Docker Hub
@@ -49,15 +49,30 @@ jobs:
     runs-on: ubuntu-latest
     needs: build_and_push_to_docker_hub
     steps:
+      - uses: actions/checkout@v2
+      - name: copy file via ssh password
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.SSH_KEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+          source: "nginx/nginx.conf,./.env,./docker-compose.yaml"
+          target: "~/yamdb_final"
+        
       - name: executing remote ssh commands to deploy
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_KEY }}
-          passphrase: ${{ secrets.PASSPHRASE }} # если ваш ssh-ключ защищен фразой-паролем
+          passphrase: ${{ secrets.PASSPHRASE }} 
           script: |
-            sudo docker-compose up --build
+            cd yamdb_final
+            sudo docker-compose up -d --force-recreate
+            docker exec -i web python manage.py makemigrations reviews titles users  
+            docker exec -i web python manage.py migrate 
+            docker exec -i web python manage.py collectstatic --no-input
       
   send_message:
     runs-on: ubuntu-latest

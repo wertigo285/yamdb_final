@@ -8,6 +8,8 @@ services:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
       - ./.env
+    expose:
+      - "5432"
   web:
     image: skhortyuk/yamdb_final_web:latest
     container_name: web
@@ -21,7 +23,7 @@ services:
     env_file:
       - ./.env
   nginx:
-    image: nginx
+    image: nginx:1.19.6
     container_name: nginx
     restart: always
     ports:

@@ -1,3 +1,4 @@
+https://github.com/wertigo285/yamdb_final/workflows/<WORKFLOW_NAME>/badge.svg
 # Проект "Yamdb"
 
 

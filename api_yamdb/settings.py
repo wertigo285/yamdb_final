@@ -90,7 +90,7 @@ DATABASES = {
         'HOST': os.environ.get('DB_HOST'),
         'PORT': os.environ.get('DB_PORT'),
     }
-} 
+}
 
 
 # Password validation
@@ -134,8 +134,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-
-
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [

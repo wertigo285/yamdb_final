@@ -22,7 +22,7 @@ class Title(models.Model):
     name = models.CharField(max_length=200)
     year = models.PositiveIntegerField(validators=[MaxValueValidator(9999)])
     description = models.CharField(max_length=200, blank=True)
-    genre = models.ManyToManyField(Genre,  related_name='titles')
+    genre = models.ManyToManyField(Genre, related_name='titles')
     category = models.ForeignKey(
         Category, on_delete=models.SET_NULL, related_name='titles', null=True)
 

@@ -9,7 +9,7 @@ services:
     env_file:
       - ./.env
   web:
-    build: .
+    image: skhortyuk/yamdb_final_web:latest
     container_name: web
     restart: always
     expose:

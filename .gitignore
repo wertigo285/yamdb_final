@@ -19,7 +19,9 @@ __pycache__/
 
 migrations/
 posts/static/
+data/
 sent_emails/
+data_to_db.py
 
 db.sqlite3
 
